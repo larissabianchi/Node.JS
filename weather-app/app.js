@@ -8,17 +8,17 @@ if(!address){
     console.log(color.red.bold('Please, enter an address!')) 
 
 }else{
-    geocode(address, (error, data) => {
+    geocode(address, (error, {latitude, longitude, location} = {}) => {
         if(error){
             return console.log(color.red.bold(error))
         }
     
-        forecast(data.latitude, data.longitude, (error, forecastData) => {
+        forecast(latitude, longitude, (error, forecastData) => {
             if(error){
                 return console.log(color.red.bold(error))
             }     
     
-            console.log(color.magenta.bold(data.location))
+            console.log(color.magenta.bold(location))
             console.log(color.blue.bold(forecastData))
         })
     })
