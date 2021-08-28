@@ -1,36 +1,43 @@
-const { response } = require('express')
+const path = require('path')
 const express = require('express')
+const { request } = require('http')
+const { response } = require('express')
 
 const app = express()
+const publicDirectoryPath = path.join(__dirname, '../public')
+
+app.set('view engine','hbs')
+app.set('views', path.join(__dirname, '../views'));
+app.use(express.static(publicDirectoryPath))
 
 app.get('', (request, response) => {
-    response.send([{
-        message: 'Hello World!',
-        date: 'August 20th, 2021'
-    },{
-        message: 'This is my Web Server!',
-        date: 'August 20th, 2021'
-    }])
-})
-
-app.get('/help', (request, response) => {
-    response.send({
-        message: 'Contact us:',
-        email: 'larissabianchi@gmail.com',
-        phone: '4002-8922'
+    response.render('index', {
+        title: 'Weather',
+        name: 'Larissa Bianchi'
     })
 })
 
 app.get('/about', (request, response) => {
-    response.send({
+    response.render('about', {
+        title: 'About',
+        caption: 'Developer:',
         name: 'Larissa Cardoso Bianchi',
         city: 'Bragança Paulista - SP',
         birth: 'February 16th, 2001'
     })
 })
 
-app.get('/credits', (request, response) => {
-    response.send('<h1>Server By Larissa Bianchi</h1>')
+app.get('/help', (request, response) => {
+    response.render('help', {
+        title: 'Help',
+        caption: 'Contact us:',
+        email: 'larissabianchi16@gmail.com',
+        phone: '(11)4002-8922'
+    })
+})
+
+app.get('/weather', (request, response) => {
+    response.send('<h1>Weather</h1>')
 })
 
 app.listen(3000, () => {
