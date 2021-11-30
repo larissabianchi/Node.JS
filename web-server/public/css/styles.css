@@ -2,6 +2,10 @@ h1{
     color: crimson;
 }
 
+h5{
+    color: chocolate;    
+}
+
 #my_img {
     width: 350px;
     height: 260px;
