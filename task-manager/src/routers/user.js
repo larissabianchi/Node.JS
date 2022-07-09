@@ -3,6 +3,7 @@ const multer = require('multer')
 const sharp = require('sharp')
 const User = require('../models/user')
 const auth = require('../middleware/auth')
+const { sendWelcomeEmail, sendCancelationEmail } = require('../emails/account')
 const router = new express.Router()
 
 User.createIndexes()
@@ -12,6 +13,7 @@ router.post('/users', async (request, response) => {
 
     try {
         await user.save()
+        //sendWelcomeEmail(user.email, user.name)
 
         const token = await user.generateAuthToken()
         response.status(201).send({ user, token })
@@ -80,6 +82,8 @@ router.patch('/users/me', auth, async (request, response) => {
 router.delete('/users/me', auth, async (request, response) => {
     try {
         await request.user.remove()
+        //sendCancelationEmail(user.email, user.name)
+
         response.send(request.user)
     } catch(e) {
         response.status(500).send(e)
